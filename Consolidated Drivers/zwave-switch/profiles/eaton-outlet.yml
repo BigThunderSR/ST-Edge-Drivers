@@ -1,0 +1,99 @@
+name: eaton-outlet
+components:
+- id: main
+  capabilities:
+  - id: switch
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  categories:
+  - name: SmartPlug
+metadata:
+  deviceType: SmartPlug
+  ocfDeviceType: oic.d.smartplug
+  deviceTypeId: SmartPlug
+preferences:
+  - title: "Delayed OFF Time"   #P1
+    name: delayedOffTime
+    description: "Press and Hold sequence for Delayed OFF. Turns off the receptacle after a set time interval. (0=disable, 1-127 in seconds.  Default = 10)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 127
+      default: 10
+  - title: "Panic ON Time"  #P2
+    name: panicOnTime
+    description: "Time interval for receptacle to be ON when Panic Mode is enabled. (0=disable, 1-127 in seconds.  Default = 1)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 127
+      default: 1
+  - title: "Panic OFF Time"  #P3
+    name: panicOffTime
+    description: "Time interval for receptacle to be OFF when Panic Mode is enabled. (0=disable, 1-127 in seconds.  Default = 1)"
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 0
+      maximum: 127
+      default: 1
+  - title: "Power Up State" #P5
+    name: powerUpState
+    description: "State when power is restored.   Default = OFF."
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        1: "OFF"
+        2: "ON"
+        3: "Previous State"
+      default: 1
+  - title: "Panic Mode Enable" #P6
+    name: panicModeEnable
+    description: "Default = Disabled."
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "Panic Mode Disabled"
+        1: "Panic Mode Enabled"
+      default: 0     
+  - title: "LED Indicator when ON"  #P13
+    name: ledLevelOn
+    description: "LED Brightness level while the receptacle is ON.  (Default = High)"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "LED off"
+        1: "Dim"
+        2: "Medium"
+        3: "High"
+        4: "Max"
+      default: 3
+  - title: "LED Indicator when OFF"  #P14
+    name: ledLevelOff
+    description: "LED Brightness level while the receptacle is OFF.  (Default = Dim)"
+    required: true
+    preferenceType: enumeration
+    definition:
+      options:
+        0: "LED off"
+        1: "Dim"
+        2: "Medium"
+        3: "High"
+        4: "Max"
+      default: 1
+  - title: "Association Group 2"
+    name: assocGroup2
+    description: "Enter a comma delimited list of hex IDs to be turned on/off with the switch load (5 node max)"
+    required: true
+    preferenceType: string
+    definition:
+      stringType: text
+      default: ""

@@ -408,6 +408,23 @@ local devices = {
       assocGroup2                = {type = 'assoc', group = 2, maxnodes = 4, addhub = false},
     }
   },
+  EATON_OUTLET_RFTR9605 = {
+    MATCHING_MATRIX = {
+      mfrs = 0x001A,
+      product_types = 0x5244,
+      product_ids = 0x0505,
+    },
+    PARAMETERS = {
+      delayedOffTime             = {type = 'config', parameter_number = 1, size = 1 },
+      panicOnTime                = {type = 'config', parameter_number = 2, size = 1 },
+      panicOffTime               = {type = 'config', parameter_number = 3, size = 1 },
+      powerUpState               = {type = 'config', parameter_number = 5, size = 1 },
+      panicModeEnable            = {type = 'config', parameter_number = 6, size = 1 },
+      ledLevelOn                 = {type = 'config', parameter_number = 13, size = 1 },
+      ledLevelOff                = {type = 'config', parameter_number = 14, size = 1 },
+      assocGroup2                = {type = 'assoc', group = 2, maxnodes = 5, addhub = false},
+    }
+  },
 }
 local preferences = {}
 

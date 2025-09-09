@@ -665,3 +665,10 @@ zwaveManufacturer:
     productType: 0x0001
     productId: 0x0001
     deviceProfileName: range-extender
+# Eaton
+  - id: "001A/5244/0505"
+    deviceLabel: Eaton Outlet
+    manufacturerId: 0x001A
+    productType: 0x5244
+    productId: 0x0505
+    deviceProfileName: eaton-outlet
