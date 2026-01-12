@@ -1,0 +1,52 @@
+{
+  "name": "LED Light Color",
+  "attributes": {
+    "ledLightColor": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": ["red", "orange", "yellow", "green", "blue", "pink", "purple", "white"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["value"]
+      },
+      "setter": "setLedLightColor",
+      "enumCommands": [
+        { "command": "red", "value": "red" },
+        { "command": "orange", "value": "orange" },
+        { "command": "yellow", "value": "yellow" },
+        { "command": "green", "value": "green" },
+        { "command": "blue", "value": "blue" },
+        { "command": "pink", "value": "pink" },
+        { "command": "purple", "value": "purple" },
+        { "command": "white", "value": "white" }
+      ]
+    }
+  },
+  "commands": {
+    "setLedLightColor": {
+      "name": "setLedLightColor",
+      "arguments": [
+        {
+          "name": "color",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": ["red", "orange", "yellow", "green", "blue", "pink", "purple", "white"]
+          }
+        }
+      ]
+    },
+    "red": { "name": "red", "arguments": [] },
+    "orange": { "name": "orange", "arguments": [] },
+    "yellow": { "name": "yellow", "arguments": [] },
+    "green": { "name": "green", "arguments": [] },
+    "blue": { "name": "blue", "arguments": [] },
+    "pink": { "name": "pink", "arguments": [] },
+    "purple": { "name": "purple", "arguments": [] },
+    "white": { "name": "white", "arguments": [] }
+  }
+}

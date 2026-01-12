@@ -8,6 +8,12 @@ components:
     version: 1
   - id: platemusic11009.deviceNetworkId
     version: 1
+  - id: forgeperfect33344.ledLightColor
+    version: 1
+  - id: forgeperfect33344.ledLightIntensity
+    version: 1
+  - id: forgeperfect33344.guideLightIntensity
+    version: 1
   - id: firmwareUpdate
     version: 1
   - id: refresh
