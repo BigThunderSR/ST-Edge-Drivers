@@ -63,29 +63,25 @@ local LED_COLOR_REVERSE = {}
 for k, v in pairs(LED_COLOR_MAP) do LED_COLOR_REVERSE[v] = k end
 
 -- LED Intensity mapping (Parameters 35, 36)
--- Values match the registered capability enum: "1" through "7"
+-- Device uses 1-7 directly, matching capability enum "1" through "7"
 local LED_INTENSITY_MAP = {
-  [0] = "1",   -- Off maps to 1 (lowest)
   [1] = "1",
   [2] = "2",
-  [3] = "2",
-  [4] = "3",
-  [5] = "3",
-  [6] = "4",
-  [7] = "4",
-  [8] = "5",
-  [9] = "6",
-  [10] = "7",
+  [3] = "3",
+  [4] = "4",
+  [5] = "5",
+  [6] = "6",
+  [7] = "7",
 }
 -- Reverse map: capability values "1"-"7" to Z-Wave parameter values
 local LED_INTENSITY_REVERSE = {
   ["1"] = 1,
-  ["2"] = 3,
-  ["3"] = 4,
-  ["4"] = 6,
-  ["5"] = 8,
-  ["6"] = 9,
-  ["7"] = 10,
+  ["2"] = 2,
+  ["3"] = 3,
+  ["4"] = 4,
+  ["5"] = 5,
+  ["6"] = 6,
+  ["7"] = 7,
 }
 
 local GE_SWITCH_FINGERPRINTS = {
