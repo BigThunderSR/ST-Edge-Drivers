@@ -1,6 +1,6 @@
-# GE Z-Wave Switch/Dimmer/Fan/Outlet
+# Z-Wave Switch BTSR LED (CS Mod)
 
-SmartThings Edge Driver for GE/Jasco/Honeywell/Ultrapro Z-Wave switches, dimmers, fans, and outlets.
+SmartThings Edge Driver for GE/Jasco/Honeywell/Ultrapro Z-Wave switches, dimmers, fans, and outlets with automatable LED control.
 
 ## Fork Information
 
@@ -24,15 +24,15 @@ This fork adds **automatable LED control capabilities** for compatible GE/Jasco 
 
 **LED Color (Parameter 34):**
 
-- White, Red, Orange, Yellow, Green, Cyan, Blue, Violet
+- Red, Orange, Yellow, Green, Blue, Pink, Purple, White
 
 **LED Intensity (Parameter 35):**
 
-- Off, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100%
+- 1 (lowest) through 7 (highest)
 
 **Guide Light Intensity (Parameter 36):**
 
-- Off, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100%
+- 1 (lowest) through 7 (highest)
 
 ## Supported Models
 

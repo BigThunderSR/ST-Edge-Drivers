@@ -31,7 +31,7 @@
       "name": "setLedLightColor",
       "arguments": [
         {
-          "name": "color",
+          "name": "ledLightColor",
           "optional": false,
           "schema": {
             "type": "string",

@@ -2,23 +2,23 @@
 
 All notable changes to this driver will be documented in this file.
 
-## [Unreleased]
+## [2026-01-12]
 
 ### Added
 
 - **Automatable LED Color Capability** (`forgeperfect33344.ledLightColor`)
   - Controls Z-Wave parameter 34
-  - Values: White, Red, Orange, Yellow, Green, Cyan, Blue, Violet
+  - Values: Red, Orange, Yellow, Green, Blue, Pink, Purple, White
   - Can be used in SmartThings Routines and automations
 
 - **Automatable LED Intensity Capability** (`forgeperfect33344.ledLightIntensity`)
   - Controls Z-Wave parameter 35
-  - Values: Off, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100%
+  - Values: 1 (lowest) through 7 (highest)
   - Can be used in SmartThings Routines and automations
 
 - **Automatable Guide Light Intensity Capability** (`forgeperfect33344.guideLightIntensity`)
   - Controls Z-Wave parameter 36
-  - Values: Off, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100%
+  - Values: 1 (lowest) through 7 (highest)
   - Can be used in SmartThings Routines and automations
 
 - **Device Network ID Display** (`platemusic11009.deviceNetworkId`)
@@ -27,20 +27,19 @@ All notable changes to this driver will be documented in this file.
 
 ### New Files
 
-- `src/capabilitydefs.lua` - Custom capability definitions
-- `src/config_handlers.lua` - Z-Wave configuration report handlers for LED parameters
-- `capabilities/jascoLedLightColor.json` - LED color capability definition
-- `capabilities/ledLightColor-presentation.json` - LED color UI presentation
-- `capabilities/jascoLedLightIntensity.json` - LED intensity capability definition
-- `capabilities/ledLightIntensity-presentation.json` - LED intensity UI presentation
-- `capabilities/jascoGuideLightIntensity.json` - Guide light capability definition
-- `capabilities/guideLightIntensity-presentation.json` - Guide light UI presentation
+- `capabilities/forgeperfect33344/ledLightColor.json` - LED color capability definition
+- `capabilities/forgeperfect33344/ledLightColor-presentation.json` - LED color UI presentation
+- `capabilities/forgeperfect33344/ledLightIntensity.json` - LED intensity capability definition
+- `capabilities/forgeperfect33344/ledLightIntensity-presentation.json` - LED intensity UI presentation
+- `capabilities/forgeperfect33344/guideLightIntensity.json` - Guide light capability definition
+- `capabilities/forgeperfect33344/guideLightIntensity-presentation.json` - Guide light UI presentation
 
 ### Modified Files
 
-- `src/init.lua` - Added LED capability handlers and deviceNetworkId support
-- `profiles/ge-switch-scene-led.yml` - Added LED and deviceNetworkId capabilities
-- `config.yml` - Updated metadata and support information
+- `src/init.lua` - Added LED capability definitions
+- `src/ge-switch/init.lua` - Added LED capability handlers and configuration report handler
+- `profiles/ge-switch-scene-led.yml` - Added LED capabilities to profile
+- `config.yml` - Updated driver name and metadata
 
 ## [Upstream]
 

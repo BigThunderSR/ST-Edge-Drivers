@@ -48,35 +48,45 @@ local LedLightIntensity = capabilities["forgeperfect33344.ledLightIntensity"]
 local GuideLightIntensity = capabilities["forgeperfect33344.guideLightIntensity"]
 
 -- LED Color mapping (Parameter 34)
+-- Matches profile: 1=Red, 2=Orange, 3=Yellow, 4=Green, 5=Blue, 6=Pink, 7=Purple, 8=White
 local LED_COLOR_MAP = {
-  [1] = "White",
-  [2] = "Red",
-  [3] = "Orange",
-  [4] = "Yellow",
-  [5] = "Green",
-  [6] = "Cyan",
-  [7] = "Blue",
-  [8] = "Violet",
+  [1] = "red",
+  [2] = "orange",
+  [3] = "yellow",
+  [4] = "green",
+  [5] = "blue",
+  [6] = "pink",
+  [7] = "purple",
+  [8] = "white",
 }
 local LED_COLOR_REVERSE = {}
 for k, v in pairs(LED_COLOR_MAP) do LED_COLOR_REVERSE[v] = k end
 
 -- LED Intensity mapping (Parameters 35, 36)
+-- Values match the registered capability enum: "1" through "7"
 local LED_INTENSITY_MAP = {
-  [0] = "Off",
-  [1] = "10%",
-  [2] = "20%",
-  [3] = "30%",
-  [4] = "40%",
-  [5] = "50%",
-  [6] = "60%",
-  [7] = "70%",
-  [8] = "80%",
-  [9] = "90%",
-  [10] = "100%",
+  [0] = "1",   -- Off maps to 1 (lowest)
+  [1] = "1",
+  [2] = "2",
+  [3] = "2",
+  [4] = "3",
+  [5] = "3",
+  [6] = "4",
+  [7] = "4",
+  [8] = "5",
+  [9] = "6",
+  [10] = "7",
 }
-local LED_INTENSITY_REVERSE = {}
-for k, v in pairs(LED_INTENSITY_MAP) do LED_INTENSITY_REVERSE[v] = k end
+-- Reverse map: capability values "1"-"7" to Z-Wave parameter values
+local LED_INTENSITY_REVERSE = {
+  ["1"] = 1,
+  ["2"] = 3,
+  ["3"] = 4,
+  ["4"] = 6,
+  ["5"] = 8,
+  ["6"] = 9,
+  ["7"] = 10,
+}
 
 local GE_SWITCH_FINGERPRINTS = {
   {mfr = 0x0063, prod = 0x4450, model = 0x3030},
@@ -401,29 +411,29 @@ end
 
 -- LED Capability Handlers (added by BigThunderSR)
 local function handle_set_led_color(driver, device, command)
-  local value = command.args.color
+  local value = command.args.ledLightColor
   local param_value = LED_COLOR_REVERSE[value]
   if param_value then
     device:send(Configuration:Set({parameter_number = 34, size = 1, configuration_value = param_value}))
-    device:emit_event(LedLightColor.color({ value = value }))
+    device:emit_event(LedLightColor.ledLightColor({ value = value }))
   end
 end
 
 local function handle_set_led_intensity(driver, device, command)
-  local value = command.args.intensity
+  local value = command.args.ledLightIntensity
   local param_value = LED_INTENSITY_REVERSE[value]
   if param_value then
     device:send(Configuration:Set({parameter_number = 35, size = 1, configuration_value = param_value}))
-    device:emit_event(LedLightIntensity.intensity({ value = value }))
+    device:emit_event(LedLightIntensity.ledLightIntensity({ value = value }))
   end
 end
 
 local function handle_set_guide_light_intensity(driver, device, command)
-  local value = command.args.intensity
+  local value = command.args.guideLightIntensity
   local param_value = LED_INTENSITY_REVERSE[value]
   if param_value then
     device:send(Configuration:Set({parameter_number = 36, size = 1, configuration_value = param_value}))
-    device:emit_event(GuideLightIntensity.intensity({ value = value }))
+    device:emit_event(GuideLightIntensity.guideLightIntensity({ value = value }))
   end
 end
 
@@ -433,19 +443,19 @@ local function configuration_report_handler(driver, device, cmd)
   local value = cmd.args.configuration_value
   
   if param == 34 then
-    local mapped_value = LED_COLOR_MAP[value] or "White"
+    local mapped_value = LED_COLOR_MAP[value] or "white"
     if device:supports_capability_by_id("forgeperfect33344.ledLightColor") then
-      device:emit_event(LedLightColor.color({ value = mapped_value }))
+      device:emit_event(LedLightColor.ledLightColor({ value = mapped_value }))
     end
   elseif param == 35 then
-    local mapped_value = LED_INTENSITY_MAP[value] or "100%"
+    local mapped_value = LED_INTENSITY_MAP[value] or "7"
     if device:supports_capability_by_id("forgeperfect33344.ledLightIntensity") then
-      device:emit_event(LedLightIntensity.intensity({ value = mapped_value }))
+      device:emit_event(LedLightIntensity.ledLightIntensity({ value = mapped_value }))
     end
   elseif param == 36 then
-    local mapped_value = LED_INTENSITY_MAP[value] or "100%"
+    local mapped_value = LED_INTENSITY_MAP[value] or "7"
     if device:supports_capability_by_id("forgeperfect33344.guideLightIntensity") then
-      device:emit_event(GuideLightIntensity.intensity({ value = mapped_value }))
+      device:emit_event(GuideLightIntensity.guideLightIntensity({ value = mapped_value }))
     end
   end
 end
@@ -472,13 +482,13 @@ local ge_switch = {
       [capabilities.switchLevel.commands.setLevel.NAME] = switch_level_handler,
     },
     [LedLightColor.ID] = {
-      [LedLightColor.commands.setColor.NAME] = handle_set_led_color,
+      [LedLightColor.commands.setLedLightColor.NAME] = handle_set_led_color,
     },
     [LedLightIntensity.ID] = {
-      [LedLightIntensity.commands.setIntensity.NAME] = handle_set_led_intensity,
+      [LedLightIntensity.commands.setLedLightIntensity.NAME] = handle_set_led_intensity,
     },
     [GuideLightIntensity.ID] = {
-      [GuideLightIntensity.commands.setIntensity.NAME] = handle_set_guide_light_intensity,
+      [GuideLightIntensity.commands.setGuideLightIntensity.NAME] = handle_set_guide_light_intensity,
     },
   },
   supported_capabilities = {
