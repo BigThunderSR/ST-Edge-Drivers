@@ -1,0 +1,110 @@
+name: Validate Edge Drivers
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+          sudo apt-get update && sudo apt-get install -y lua5.3
+
+      - name: Validate all YAML files
+        run: |
+          echo "=== Validating YAML files ==="
+          errors=0
+          while IFS= read -r f; do
+            if python3 -c "import yaml; yaml.safe_load(open('$f'))" 2>/dev/null; then
+              echo "✓ $f"
+            else
+              echo "✗ $f"
+              errors=$((errors + 1))
+            fi
+          done < <(find . -name "*.yml" -o -name "*.yaml" | grep -v node_modules)
+          echo "YAML errors: $errors"
+          [ $errors -eq 0 ] || exit 1
+
+      - name: Validate all JSON files
+        run: |
+          echo "=== Validating JSON files ==="
+          errors=0
+          while IFS= read -r f; do
+            if python3 -c "import json; json.load(open('$f'))" 2>/dev/null; then
+              echo "✓ $f"
+            else
+              echo "✗ $f"
+              errors=$((errors + 1))
+            fi
+          done < <(find . -name "*.json" | grep -v node_modules)
+          echo "JSON errors: $errors"
+          [ $errors -eq 0 ] || exit 1
+
+      - name: Validate all Lua files
+        run: |
+          echo "=== Validating Lua syntax ==="
+          errors=0
+          while IFS= read -r f; do
+            if luac5.3 -p "$f" 2>/dev/null; then
+              echo "✓ $f"
+            else
+              echo "✗ $f"
+              errors=$((errors + 1))
+            fi
+          done < <(find . -name "*.lua" | grep -v node_modules)
+          echo "Lua errors: $errors"
+          [ $errors -eq 0 ] || exit 1
+
+      - name: Validate all driver package structures
+        run: |
+          echo "=== Validating driver packages ==="
+          errors=0
+          while IFS= read -r config; do
+            dir=$(dirname "$config")
+            name=$(basename "$dir")
+            
+            # Check required structure
+            if [ -d "$dir/src" ] && [ -d "$dir/profiles" ]; then
+              echo "✓ $name"
+            else
+              echo "✗ $name - missing src/ or profiles/"
+              errors=$((errors + 1))
+            fi
+          done < <(find . -name "config.yml" -type f | grep -v node_modules)
+          echo "Package structure errors: $errors"
+          [ $errors -eq 0 ] || exit 1
+
+      - name: Check custom capability consistency (zwave-switch)
+        run: |
+          echo "=== Checking forgeperfect33344 capability consistency ==="
+          cd "Consolidated Drivers/zwave-switch"
+          errors=0
+          for cap in $(grep -rh "forgeperfect33344\." profiles/*.yml 2>/dev/null | grep -oE "forgeperfect33344\.[a-zA-Z]+" | sort -u); do
+            capname=${cap#forgeperfect33344.}
+            if [ -f "capabilities/forgeperfect33344/${capname}.json" ]; then
+              echo "✓ $cap"
+            else
+              echo "✗ Missing: $cap"
+              errors=$((errors + 1))
+            fi
+          done
+          [ $errors -eq 0 ] || exit 1
+
+      - name: Run unit tests
+        run: |
+          echo "=== Running unit tests ==="
+          # Find and run all test files
+          while IFS= read -r testfile; do
+            echo "Running: $testfile"
+            lua5.3 "$testfile" || exit 1
+          done < <(find . -path "*/tests/run_tests.lua" -type f)
