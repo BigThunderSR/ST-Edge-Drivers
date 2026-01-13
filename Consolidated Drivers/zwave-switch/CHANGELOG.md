@@ -47,7 +47,7 @@ All notable changes to this driver will be documented in this file.
 - `src/init.lua` - Added LED capability definitions
 - `src/ge-switch/init.lua` - Added LED capability handlers and configuration report handler
 - `profiles/ge-switch-scene-led.yml` - Added LED color/intensity capabilities to profile
-- `profiles/ge-*.yml` - Added LED Indicator Status capability to 16 GE device profiles
+- `profiles/ge-*-scene*.yml` - Added LED Indicator Status capability to 7 scene profiles (legacy/assoc profiles excluded - only support 3 options)
 - `config.yml` - Updated driver name and metadata
 
 ## [Upstream]
