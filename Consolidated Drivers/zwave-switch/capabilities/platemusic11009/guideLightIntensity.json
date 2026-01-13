@@ -1,0 +1,34 @@
+{
+  "name": "Guide Light Intensity",
+  "attributes": {
+    "guideLightIntensity": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": ["1", "2", "3", "4", "5", "6", "7"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["value"]
+      },
+      "setter": "setGuideLightIntensity"
+    }
+  },
+  "commands": {
+    "setGuideLightIntensity": {
+      "name": "setGuideLightIntensity",
+      "arguments": [
+        {
+          "name": "guideLightIntensity",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": ["1", "2", "3", "4", "5", "6", "7"]
+          }
+        }
+      ]
+    }
+  }
+}

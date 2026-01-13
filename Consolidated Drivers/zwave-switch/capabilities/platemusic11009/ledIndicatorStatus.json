@@ -1,0 +1,44 @@
+{
+  "name": "LED Indicator Status",
+  "attributes": {
+    "ledIndicatorStatus": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": ["whenOff", "whenOn", "alwaysOff", "alwaysOn"]
+          }
+        },
+        "additionalProperties": false,
+        "required": ["value"]
+      },
+      "setter": "setLedIndicatorStatus",
+      "enumCommands": [
+        { "command": "whenOff", "value": "whenOff" },
+        { "command": "whenOn", "value": "whenOn" },
+        { "command": "alwaysOff", "value": "alwaysOff" },
+        { "command": "alwaysOn", "value": "alwaysOn" }
+      ]
+    }
+  },
+  "commands": {
+    "setLedIndicatorStatus": {
+      "name": "setLedIndicatorStatus",
+      "arguments": [
+        {
+          "name": "ledIndicatorStatus",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": ["whenOff", "whenOn", "alwaysOff", "alwaysOn"]
+          }
+        }
+      ]
+    },
+    "whenOff": { "name": "whenOff", "arguments": [] },
+    "whenOn": { "name": "whenOn", "arguments": [] },
+    "alwaysOff": { "name": "alwaysOff", "arguments": [] },
+    "alwaysOn": { "name": "alwaysOn", "arguments": [] }
+  }
+}

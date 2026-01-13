@@ -1,4 +1,5 @@
 -- Author: philh30
+-- Modified by: BigThunderSR (2026) - Added automatable LED capabilities
 --
 -- Copyright 2021 SmartThings
 --
@@ -40,6 +41,64 @@ local preferencesMap = require "preferences"
 local update_preferences = require "update_preferences"
 local splitAssocString = require "split_assoc_string"
 local call_parent_handler = require "call_parent"
+
+-- LED Light capabilities (added by BigThunderSR)
+local LedIndicatorStatus = capabilities["platemusic11009.ledIndicatorStatus"]
+local LedLightColor = capabilities["platemusic11009.ledLightColor"]
+local LedLightIntensity = capabilities["platemusic11009.ledLightIntensity"]
+local GuideLightIntensity = capabilities["platemusic11009.guideLightIntensity"]
+
+-- LED Indicator Status mapping (Parameter 3)
+-- 0=LED on when switch off, 1=LED on when switch on, 2=Always off, 3=Always on
+local LED_INDICATOR_MAP = {
+  [0] = "whenOff",
+  [1] = "whenOn",
+  [2] = "alwaysOff",
+  [3] = "alwaysOn",
+}
+local LED_INDICATOR_REVERSE = {
+  ["whenOff"] = 0,
+  ["whenOn"] = 1,
+  ["alwaysOff"] = 2,
+  ["alwaysOn"] = 3,
+}
+
+-- LED Color mapping (Parameter 34)
+-- Matches profile: 1=Red, 2=Orange, 3=Yellow, 4=Green, 5=Blue, 6=Pink, 7=Purple, 8=White
+local LED_COLOR_MAP = {
+  [1] = "red",
+  [2] = "orange",
+  [3] = "yellow",
+  [4] = "green",
+  [5] = "blue",
+  [6] = "pink",
+  [7] = "purple",
+  [8] = "white",
+}
+local LED_COLOR_REVERSE = {}
+for k, v in pairs(LED_COLOR_MAP) do LED_COLOR_REVERSE[v] = k end
+
+-- LED Intensity mapping (Parameters 35, 36)
+-- Device uses 1-7 directly, matching capability enum "1" through "7"
+local LED_INTENSITY_MAP = {
+  [1] = "1",
+  [2] = "2",
+  [3] = "3",
+  [4] = "4",
+  [5] = "5",
+  [6] = "6",
+  [7] = "7",
+}
+-- Reverse map: capability values "1"-"7" to Z-Wave parameter values
+local LED_INTENSITY_REVERSE = {
+  ["1"] = 1,
+  ["2"] = 2,
+  ["3"] = 3,
+  ["4"] = 4,
+  ["5"] = 5,
+  ["6"] = 6,
+  ["7"] = 7,
+}
 
 local GE_SWITCH_FINGERPRINTS = {
   {mfr = 0x0063, prod = 0x4450, model = 0x3030},
@@ -362,6 +421,71 @@ local function switch_level_handler(driver, device, command)
   device.thread:call_with_delay(delay, query_level)
 end
 
+-- LED Capability Handlers (added by BigThunderSR)
+local function handle_set_led_indicator_status(driver, device, command)
+  local value = command.args.ledIndicatorStatus
+  local param_value = LED_INDICATOR_REVERSE[value]
+  if param_value ~= nil then
+    device:send(Configuration:Set({parameter_number = 3, size = 1, configuration_value = param_value}))
+    device:emit_event(LedIndicatorStatus.ledIndicatorStatus({ value = value }))
+  end
+end
+
+local function handle_set_led_color(driver, device, command)
+  local value = command.args.ledLightColor
+  local param_value = LED_COLOR_REVERSE[value]
+  if param_value then
+    device:send(Configuration:Set({parameter_number = 34, size = 1, configuration_value = param_value}))
+    device:emit_event(LedLightColor.ledLightColor({ value = value }))
+  end
+end
+
+local function handle_set_led_intensity(driver, device, command)
+  local value = command.args.ledLightIntensity
+  local param_value = LED_INTENSITY_REVERSE[value]
+  if param_value then
+    device:send(Configuration:Set({parameter_number = 35, size = 1, configuration_value = param_value}))
+    device:emit_event(LedLightIntensity.ledLightIntensity({ value = value }))
+  end
+end
+
+local function handle_set_guide_light_intensity(driver, device, command)
+  local value = command.args.guideLightIntensity
+  local param_value = LED_INTENSITY_REVERSE[value]
+  if param_value then
+    device:send(Configuration:Set({parameter_number = 36, size = 1, configuration_value = param_value}))
+    device:emit_event(GuideLightIntensity.guideLightIntensity({ value = value }))
+  end
+end
+
+-- Configuration report handler for LED parameters
+local function configuration_report_handler(driver, device, cmd)
+  local param = cmd.args.parameter_number
+  local value = cmd.args.configuration_value
+  
+  if param == 3 then
+    local mapped_value = LED_INDICATOR_MAP[value] or "whenOff"
+    if device:supports_capability_by_id("platemusic11009.ledIndicatorStatus") then
+      device:emit_event(LedIndicatorStatus.ledIndicatorStatus({ value = mapped_value }))
+    end
+  elseif param == 34 then
+    local mapped_value = LED_COLOR_MAP[value] or "white"
+    if device:supports_capability_by_id("platemusic11009.ledLightColor") then
+      device:emit_event(LedLightColor.ledLightColor({ value = mapped_value }))
+    end
+  elseif param == 35 then
+    local mapped_value = LED_INTENSITY_MAP[value] or "7"
+    if device:supports_capability_by_id("platemusic11009.ledLightIntensity") then
+      device:emit_event(LedLightIntensity.ledLightIntensity({ value = mapped_value }))
+    end
+  elseif param == 36 then
+    local mapped_value = LED_INTENSITY_MAP[value] or "7"
+    if device:supports_capability_by_id("platemusic11009.guideLightIntensity") then
+      device:emit_event(GuideLightIntensity.guideLightIntensity({ value = mapped_value }))
+    end
+  end
+end
+
 local ge_switch = {
   zwave_handlers = {
     [cc.BASIC] = {
@@ -371,6 +495,9 @@ local ge_switch = {
     [cc.CENTRAL_SCENE] = {
       [CentralScene.NOTIFICATION] = central_scene_notification_handler,
     },
+    [cc.CONFIGURATION] = {
+      [Configuration.REPORT] = configuration_report_handler,
+    },
   },
   capability_handlers = {
     [capabilities.switch.ID] = {
@@ -379,6 +506,18 @@ local ge_switch = {
     },
     [capabilities.switchLevel.ID] = {
       [capabilities.switchLevel.commands.setLevel.NAME] = switch_level_handler,
+    },
+    [LedIndicatorStatus.ID] = {
+      [LedIndicatorStatus.commands.setLedIndicatorStatus.NAME] = handle_set_led_indicator_status,
+    },
+    [LedLightColor.ID] = {
+      [LedLightColor.commands.setLedLightColor.NAME] = handle_set_led_color,
+    },
+    [LedLightIntensity.ID] = {
+      [LedLightIntensity.commands.setLedLightIntensity.NAME] = handle_set_led_intensity,
+    },
+    [GuideLightIntensity.ID] = {
+      [GuideLightIntensity.commands.setGuideLightIntensity.NAME] = handle_set_guide_light_intensity,
     },
   },
   supported_capabilities = {
@@ -390,6 +529,10 @@ local ge_switch = {
     capabilities.motionSensor,
     capabilities.energyMeter,
     capabilities.powerMeter,
+    LedIndicatorStatus,
+    LedLightColor,
+    LedLightIntensity,
+    GuideLightIntensity,
   },
   lifecycle_handlers = {
     infoChanged = info_changed,

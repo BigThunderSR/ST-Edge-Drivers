@@ -26,6 +26,17 @@ customCap.firmware= {}
 customCap.firmware.name = "platemusic11009.firmware"
 customCap.firmware.capability = capabilities[customCap.firmware.name]
 
+-- LED Light capabilities (added by BigThunderSR)
+customCap.ledLightColor = {}
+customCap.ledLightColor.name = "platemusic11009.ledLightColor"
+customCap.ledLightColor.capability = capabilities[customCap.ledLightColor.name]
+customCap.ledLightIntensity = {}
+customCap.ledLightIntensity.name = "platemusic11009.ledLightIntensity"
+customCap.ledLightIntensity.capability = capabilities[customCap.ledLightIntensity.name]
+customCap.guideLightIntensity = {}
+customCap.guideLightIntensity.name = "platemusic11009.guideLightIntensity"
+customCap.guideLightIntensity.capability = capabilities[customCap.guideLightIntensity.name]
+
 --- Map component to en_point
 ---
 --- @param device st.zwave.Device

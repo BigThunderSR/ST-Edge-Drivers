@@ -1,0 +1,71 @@
+{
+  "dashboard": {
+    "states": [
+      {
+        "label": "{{ledIndicatorStatus.value}}"
+      }
+    ],
+    "actions": [],
+    "basicPlus": []
+  },
+  "detailView": [
+    {
+      "label": "LED Indicator",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setLedIndicatorStatus",
+          "alternatives": [
+            { "key": "whenOff", "value": "On when switch off", "type": "active" },
+            { "key": "whenOn", "value": "On when switch on", "type": "active" },
+            { "key": "alwaysOff", "value": "Always off", "type": "active" },
+            { "key": "alwaysOn", "value": "Always on", "type": "active" }
+          ],
+          "argumentType": "string"
+        },
+        "state": {
+          "value": "ledIndicatorStatus.value",
+          "valueType": "string",
+          "alternatives": [
+            { "key": "whenOff", "value": "On when switch off", "type": "active" },
+            { "key": "whenOn", "value": "On when switch on", "type": "active" },
+            { "key": "alwaysOff", "value": "Always off", "type": "active" },
+            { "key": "alwaysOn", "value": "Always on", "type": "active" }
+          ]
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "LED Indicator",
+        "displayType": "list",
+        "list": {
+          "alternatives": [
+            { "key": "whenOff", "value": "On when switch off", "type": "active" },
+            { "key": "whenOn", "value": "On when switch on", "type": "active" },
+            { "key": "alwaysOff", "value": "Always off", "type": "active" },
+            { "key": "alwaysOn", "value": "Always on", "type": "active" }
+          ],
+          "value": "ledIndicatorStatus.value",
+          "valueType": "string"
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "LED Indicator",
+        "displayType": "list",
+        "list": {
+          "alternatives": [
+            { "key": "whenOff", "value": "On when switch off", "type": "active" },
+            { "key": "whenOn", "value": "On when switch on", "type": "active" },
+            { "key": "alwaysOff", "value": "Always off", "type": "active" },
+            { "key": "alwaysOn", "value": "Always on", "type": "active" }
+          ]
+        }
+      }
+    ]
+  }
+}

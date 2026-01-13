@@ -1,0 +1,89 @@
+{
+  "dashboard": {
+    "states": [
+      {
+        "label": "{{ledLightColor.value}}"
+      }
+    ],
+    "actions": [],
+    "basicPlus": []
+  },
+  "detailView": [
+    {
+      "label": "LED Color",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setLedLightColor",
+          "alternatives": [
+            { "key": "red", "value": "Red", "type": "active" },
+            { "key": "orange", "value": "Orange", "type": "active" },
+            { "key": "yellow", "value": "Yellow", "type": "active" },
+            { "key": "green", "value": "Green", "type": "active" },
+            { "key": "blue", "value": "Blue", "type": "active" },
+            { "key": "pink", "value": "Pink", "type": "active" },
+            { "key": "purple", "value": "Purple", "type": "active" },
+            { "key": "white", "value": "White", "type": "active" }
+          ],
+          "argumentType": "string"
+        },
+        "state": {
+          "value": "ledLightColor.value",
+          "valueType": "string",
+          "alternatives": [
+            { "key": "red", "value": "Red", "type": "active" },
+            { "key": "orange", "value": "Orange", "type": "active" },
+            { "key": "yellow", "value": "Yellow", "type": "active" },
+            { "key": "green", "value": "Green", "type": "active" },
+            { "key": "blue", "value": "Blue", "type": "active" },
+            { "key": "pink", "value": "Pink", "type": "active" },
+            { "key": "purple", "value": "Purple", "type": "active" },
+            { "key": "white", "value": "White", "type": "active" }
+          ]
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "LED Color",
+        "displayType": "list",
+        "list": {
+          "alternatives": [
+            { "key": "red", "value": "Red", "type": "active" },
+            { "key": "orange", "value": "Orange", "type": "active" },
+            { "key": "yellow", "value": "Yellow", "type": "active" },
+            { "key": "green", "value": "Green", "type": "active" },
+            { "key": "blue", "value": "Blue", "type": "active" },
+            { "key": "pink", "value": "Pink", "type": "active" },
+            { "key": "purple", "value": "Purple", "type": "active" },
+            { "key": "white", "value": "White", "type": "active" }
+          ],
+          "value": "ledLightColor.value",
+          "valueType": "string"
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "LED Color",
+        "displayType": "list",
+        "list": {
+          "alternatives": [
+            { "key": "red", "value": "Red", "type": "active" },
+            { "key": "orange", "value": "Orange", "type": "active" },
+            { "key": "yellow", "value": "Yellow", "type": "active" },
+            { "key": "green", "value": "Green", "type": "active" },
+            { "key": "blue", "value": "Blue", "type": "active" },
+            { "key": "pink", "value": "Pink", "type": "active" },
+            { "key": "purple", "value": "Purple", "type": "active" },
+            { "key": "white", "value": "White", "type": "active" }
+          ],
+          "command": "setLedLightColor",
+          "argumentType": "string"
+        }
+      }
+    ]
+  }
+}
