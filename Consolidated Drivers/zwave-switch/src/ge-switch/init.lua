@@ -43,9 +43,25 @@ local splitAssocString = require "split_assoc_string"
 local call_parent_handler = require "call_parent"
 
 -- LED Light capabilities (added by BigThunderSR)
+local LedIndicatorStatus = capabilities["forgeperfect33344.ledIndicatorStatus"]
 local LedLightColor = capabilities["forgeperfect33344.ledLightColor"]
 local LedLightIntensity = capabilities["forgeperfect33344.ledLightIntensity"]
 local GuideLightIntensity = capabilities["forgeperfect33344.guideLightIntensity"]
+
+-- LED Indicator Status mapping (Parameter 3)
+-- 0=LED on when switch off, 1=LED on when switch on, 2=Always off, 3=Always on
+local LED_INDICATOR_MAP = {
+  [0] = "whenOff",
+  [1] = "whenOn",
+  [2] = "alwaysOff",
+  [3] = "alwaysOn",
+}
+local LED_INDICATOR_REVERSE = {
+  ["whenOff"] = 0,
+  ["whenOn"] = 1,
+  ["alwaysOff"] = 2,
+  ["alwaysOn"] = 3,
+}
 
 -- LED Color mapping (Parameter 34)
 -- Matches profile: 1=Red, 2=Orange, 3=Yellow, 4=Green, 5=Blue, 6=Pink, 7=Purple, 8=White
@@ -406,6 +422,15 @@ local function switch_level_handler(driver, device, command)
 end
 
 -- LED Capability Handlers (added by BigThunderSR)
+local function handle_set_led_indicator_status(driver, device, command)
+  local value = command.args.ledIndicatorStatus
+  local param_value = LED_INDICATOR_REVERSE[value]
+  if param_value ~= nil then
+    device:send(Configuration:Set({parameter_number = 3, size = 1, configuration_value = param_value}))
+    device:emit_event(LedIndicatorStatus.ledIndicatorStatus({ value = value }))
+  end
+end
+
 local function handle_set_led_color(driver, device, command)
   local value = command.args.ledLightColor
   local param_value = LED_COLOR_REVERSE[value]
@@ -438,7 +463,12 @@ local function configuration_report_handler(driver, device, cmd)
   local param = cmd.args.parameter_number
   local value = cmd.args.configuration_value
   
-  if param == 34 then
+  if param == 3 then
+    local mapped_value = LED_INDICATOR_MAP[value] or "whenOff"
+    if device:supports_capability_by_id("forgeperfect33344.ledIndicatorStatus") then
+      device:emit_event(LedIndicatorStatus.ledIndicatorStatus({ value = mapped_value }))
+    end
+  elseif param == 34 then
     local mapped_value = LED_COLOR_MAP[value] or "white"
     if device:supports_capability_by_id("forgeperfect33344.ledLightColor") then
       device:emit_event(LedLightColor.ledLightColor({ value = mapped_value }))
@@ -477,6 +507,9 @@ local ge_switch = {
     [capabilities.switchLevel.ID] = {
       [capabilities.switchLevel.commands.setLevel.NAME] = switch_level_handler,
     },
+    [LedIndicatorStatus.ID] = {
+      [LedIndicatorStatus.commands.setLedIndicatorStatus.NAME] = handle_set_led_indicator_status,
+    },
     [LedLightColor.ID] = {
       [LedLightColor.commands.setLedLightColor.NAME] = handle_set_led_color,
     },
@@ -496,6 +529,7 @@ local ge_switch = {
     capabilities.motionSensor,
     capabilities.energyMeter,
     capabilities.powerMeter,
+    LedIndicatorStatus,
     LedLightColor,
     LedLightIntensity,
     GuideLightIntensity,

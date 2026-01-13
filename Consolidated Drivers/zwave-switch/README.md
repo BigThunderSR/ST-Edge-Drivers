@@ -16,11 +16,19 @@ This fork adds **automatable LED control capabilities** for compatible GE/Jasco 
 
 | Capability                              | Description              | Z-Wave Parameter |
 | --------------------------------------- | ------------------------ | ---------------- |
+| `forgeperfect33344.ledIndicatorStatus`  | LED on/off behavior      | Parameter 3      |
 | `forgeperfect33344.ledLightColor`       | LED indicator color      | Parameter 34     |
 | `forgeperfect33344.ledLightIntensity`   | LED indicator brightness | Parameter 35     |
 | `forgeperfect33344.guideLightIntensity` | Guide light brightness   | Parameter 36     |
 
 ### Supported Values
+
+**LED Indicator Status (Parameter 3):**
+
+- whenOff: LED on when switch is off
+- whenOn: LED on when switch is on
+- alwaysOff: LED always off
+- alwaysOn: LED always on
 
 **LED Color (Parameter 34):**
 

@@ -6,6 +6,11 @@ All notable changes to this driver will be documented in this file.
 
 ### Added
 
+- **Automatable LED Indicator Status Capability** (`forgeperfect33344.ledIndicatorStatus`)
+  - Controls Z-Wave parameter 3
+  - Values: whenOff (LED on when switch off), whenOn (LED on when switch on), alwaysOff, alwaysOn
+  - Can be used in SmartThings Routines and automations
+
 - **Automatable LED Color Capability** (`forgeperfect33344.ledLightColor`)
   - Controls Z-Wave parameter 34
   - Values: Red, Orange, Yellow, Green, Blue, Pink, Purple, White
@@ -27,6 +32,8 @@ All notable changes to this driver will be documented in this file.
 
 ### New Files
 
+- `capabilities/forgeperfect33344/ledIndicatorStatus.json` - LED indicator status capability definition
+- `capabilities/forgeperfect33344/ledIndicatorStatus-presentation.json` - LED indicator status UI presentation
 - `capabilities/forgeperfect33344/ledLightColor.json` - LED color capability definition
 - `capabilities/forgeperfect33344/ledLightColor-presentation.json` - LED color UI presentation
 - `capabilities/forgeperfect33344/ledLightIntensity.json` - LED intensity capability definition
