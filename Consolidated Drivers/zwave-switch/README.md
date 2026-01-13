@@ -44,10 +44,19 @@ This fork adds **automatable LED control capabilities** for compatible GE/Jasco 
 
 ## Supported Models
 
-This driver supports the same models as the upstream driver, but the LED capabilities are specifically designed for models with configurable LED indicators, such as:
+This driver supports all the same models as the upstream driver.
 
-- GE Smart Toggle Switch 58436 (fingerprint 0063-4952-3330)
-- Other GE/Jasco switches with LED parameters 34, 35, 36
+### LED Indicator Status (Parameter 3)
+
+Available on **all GE/Jasco/Honeywell/UltraPro** switches, dimmers, fans, outlets, and plug-in devices.
+
+### LED Color & Intensity (Parameters 34, 35, 36)
+
+Available only on newer Enbrighten/UltraPro models:
+
+- Enbrighten Switch 58433, 59337/ZWA4011DV
+- GE Smart Toggle Switch 58436
+- UltraPro Switch 59347/ZWA4011, 59368/ZWA4012, 76601/ZWN4015, 76603/ZWN4016, 76605/ZWN4017
 
 ## Installation
 

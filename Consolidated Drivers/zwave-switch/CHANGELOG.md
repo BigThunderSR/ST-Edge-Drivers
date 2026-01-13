@@ -9,6 +9,7 @@ All notable changes to this driver will be documented in this file.
 - **Automatable LED Indicator Status Capability** (`forgeperfect33344.ledIndicatorStatus`)
   - Controls Z-Wave parameter 3
   - Values: whenOff (LED on when switch off), whenOn (LED on when switch on), alwaysOff, alwaysOn
+  - Available on all GE/Jasco/Honeywell/UltraPro devices
   - Can be used in SmartThings Routines and automations
 
 - **Automatable LED Color Capability** (`forgeperfect33344.ledLightColor`)
@@ -45,7 +46,8 @@ All notable changes to this driver will be documented in this file.
 
 - `src/init.lua` - Added LED capability definitions
 - `src/ge-switch/init.lua` - Added LED capability handlers and configuration report handler
-- `profiles/ge-switch-scene-led.yml` - Added LED capabilities to profile
+- `profiles/ge-switch-scene-led.yml` - Added LED color/intensity capabilities to profile
+- `profiles/ge-*.yml` - Added LED Indicator Status capability to 16 GE device profiles
 - `config.yml` - Updated driver name and metadata
 
 ## [Upstream]
