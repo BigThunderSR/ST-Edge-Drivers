@@ -29,6 +29,7 @@ preferences:
         0: "Turn on when switch is off"
         1: "Turn on when switch is on"
         2: "Always off"
+        3: "Always on"
       default: 0
   - title: "Exclusion Sequence"
     name: excludeProtect

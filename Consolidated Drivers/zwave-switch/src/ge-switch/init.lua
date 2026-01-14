@@ -44,6 +44,7 @@ local call_parent_handler = require "call_parent"
 
 -- LED Light capabilities (added by BigThunderSR)
 local LedIndicatorStatus = capabilities["forgeperfect33344.ledIndicatorStatus"]
+local LedIndicatorBasic = capabilities["forgeperfect33344.ledIndicatorBasic"]
 local LedLightColor = capabilities["forgeperfect33344.ledLightColor"]
 local LedLightIntensity = capabilities["forgeperfect33344.ledLightIntensity"]
 local GuideLightIntensity = capabilities["forgeperfect33344.guideLightIntensity"]
@@ -427,7 +428,19 @@ local function handle_set_led_indicator_status(driver, device, command)
   local param_value = LED_INDICATOR_REVERSE[value]
   if param_value ~= nil then
     device:send(Configuration:Set({parameter_number = 3, size = 1, configuration_value = param_value}))
-    device:emit_event(LedIndicatorStatus.ledIndicatorStatus({ value = value }))
+    -- Request current value - Configuration.REPORT handler will emit the event
+    device:send(Configuration:Get({parameter_number = 3}))
+  end
+end
+
+local function handle_set_led_indicator_basic(driver, device, command)
+  local value = command.args.ledIndicatorBasic
+  local param_value = LED_INDICATOR_REVERSE[value]
+  -- ledIndicatorBasic only supports values 0, 1, 2 (whenOff, whenOn, alwaysOff)
+  if param_value ~= nil and param_value <= 2 then
+    device:send(Configuration:Set({parameter_number = 3, size = 1, configuration_value = param_value}))
+    -- Request current value - Configuration.REPORT handler will emit the event
+    device:send(Configuration:Get({parameter_number = 3}))
   end
 end
 
@@ -436,7 +449,8 @@ local function handle_set_led_color(driver, device, command)
   local param_value = LED_COLOR_REVERSE[value]
   if param_value then
     device:send(Configuration:Set({parameter_number = 34, size = 1, configuration_value = param_value}))
-    device:emit_event(LedLightColor.ledLightColor({ value = value }))
+    -- Request current value - Configuration.REPORT handler will emit the event
+    device:send(Configuration:Get({parameter_number = 34}))
   end
 end
 
@@ -445,7 +459,8 @@ local function handle_set_led_intensity(driver, device, command)
   local param_value = LED_INTENSITY_REVERSE[value]
   if param_value then
     device:send(Configuration:Set({parameter_number = 35, size = 1, configuration_value = param_value}))
-    device:emit_event(LedLightIntensity.ledLightIntensity({ value = value }))
+    -- Request current value - Configuration.REPORT handler will emit the event
+    device:send(Configuration:Get({parameter_number = 35}))
   end
 end
 
@@ -454,7 +469,8 @@ local function handle_set_guide_light_intensity(driver, device, command)
   local param_value = LED_INTENSITY_REVERSE[value]
   if param_value then
     device:send(Configuration:Set({parameter_number = 36, size = 1, configuration_value = param_value}))
-    device:emit_event(GuideLightIntensity.guideLightIntensity({ value = value }))
+    -- Request current value - Configuration.REPORT handler will emit the event
+    device:send(Configuration:Get({parameter_number = 36}))
   end
 end
 
@@ -465,8 +481,18 @@ local function configuration_report_handler(driver, device, cmd)
   
   if param == 3 then
     local mapped_value = LED_INDICATOR_MAP[value] or "whenOff"
+    -- Emit for 4-option capability (switches/dimmers)
     if device:supports_capability_by_id("forgeperfect33344.ledIndicatorStatus") then
       device:emit_event(LedIndicatorStatus.ledIndicatorStatus({ value = mapped_value }))
+    end
+    -- Emit for 3-option capability (outlets/plugins/fans)
+    -- Note: If device returns value 3 (alwaysOn), we map to "whenOff" for the 3-option capability
+    if device:supports_capability_by_id("forgeperfect33344.ledIndicatorBasic") then
+      local basic_value = mapped_value
+      if value == 3 then
+        basic_value = "whenOff"  -- Default if device somehow returns unsupported value
+      end
+      device:emit_event(LedIndicatorBasic.ledIndicatorBasic({ value = basic_value }))
     end
   elseif param == 34 then
     local mapped_value = LED_COLOR_MAP[value] or "white"
@@ -510,6 +536,9 @@ local ge_switch = {
     [LedIndicatorStatus.ID] = {
       [LedIndicatorStatus.commands.setLedIndicatorStatus.NAME] = handle_set_led_indicator_status,
     },
+    [LedIndicatorBasic.ID] = {
+      [LedIndicatorBasic.commands.setLedIndicatorBasic.NAME] = handle_set_led_indicator_basic,
+    },
     [LedLightColor.ID] = {
       [LedLightColor.commands.setLedLightColor.NAME] = handle_set_led_color,
     },
@@ -530,6 +559,7 @@ local ge_switch = {
     capabilities.energyMeter,
     capabilities.powerMeter,
     LedIndicatorStatus,
+    LedIndicatorBasic,
     LedLightColor,
     LedLightIntensity,
     GuideLightIntensity,

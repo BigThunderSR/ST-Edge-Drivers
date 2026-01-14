@@ -4,11 +4,11 @@ components:
   capabilities:
   - id: switch
     version: 1
-  - id: forgeperfect33344.ledIndicatorStatus
-    version: 1
   - id: switchLevel
     version: 1
   - id: fanSpeed
+    version: 1
+  - id: forgeperfect33344.ledIndicatorBasic
     version: 1
   - id: button
     version: 1
@@ -35,7 +35,6 @@ preferences:
         0: "Turn on when switch is off"
         1: "Turn on when switch is on"
         2: "Always off"
-        3: "Always on"
       default: 0
   - title: "Exclusion Sequence"
     name: excludeProtect

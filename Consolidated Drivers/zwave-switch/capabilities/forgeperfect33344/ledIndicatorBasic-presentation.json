@@ -1,0 +1,67 @@
+{
+  "dashboard": {
+    "states": [
+      {
+        "label": "{{ledIndicatorBasic.value}}"
+      }
+    ],
+    "actions": [],
+    "basicPlus": []
+  },
+  "detailView": [
+    {
+      "label": "LED Indicator",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setLedIndicatorBasic",
+          "alternatives": [
+            { "key": "whenOff", "value": "On when switch off", "type": "active" },
+            { "key": "whenOn", "value": "On when switch on", "type": "active" },
+            { "key": "alwaysOff", "value": "Always off", "type": "active" }
+          ],
+          "argumentType": "string"
+        },
+        "state": {
+          "value": "ledIndicatorBasic.value",
+          "valueType": "string",
+          "alternatives": [
+            { "key": "whenOff", "value": "On when switch off", "type": "active" },
+            { "key": "whenOn", "value": "On when switch on", "type": "active" },
+            { "key": "alwaysOff", "value": "Always off", "type": "active" }
+          ]
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "LED Indicator",
+        "displayType": "list",
+        "list": {
+          "alternatives": [
+            { "key": "whenOff", "value": "On when switch off", "type": "active" },
+            { "key": "whenOn", "value": "On when switch on", "type": "active" },
+            { "key": "alwaysOff", "value": "Always off", "type": "active" }
+          ],
+          "value": "ledIndicatorBasic.value",
+          "valueType": "string"
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "LED Indicator",
+        "displayType": "list",
+        "list": {
+          "alternatives": [
+            { "key": "whenOff", "value": "On when switch off", "type": "active" },
+            { "key": "whenOn", "value": "On when switch on", "type": "active" },
+            { "key": "alwaysOff", "value": "Always off", "type": "active" }
+          ]
+        }
+      }
+    ]
+  }
+}

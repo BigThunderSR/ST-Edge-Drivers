@@ -2,27 +2,49 @@
 
 All notable changes to this driver will be documented in this file.
 
+## [2026-01-13]
+
+### Fixed
+
+- Changed LED capability handlers to use Configuration:Get() instead of emitting events directly - UI now reflects actual device state from Configuration.REPORT
+- Created separate `ledIndicatorBasic` capability (3-option: whenOff, whenOn, alwaysOff) for devices that don't support "Always on"
+- Profile LED capabilities now match Z-Wave Alliance device specifications:
+  - `ge-outlet-scene.yml` - uses `ledIndicatorBasic` (3-option) per ZW1002 spec
+  - `ge-fan-scene.yml` - uses `ledIndicatorBasic` (3-option) per ZW4002 spec (500S fans)
+  - `ge-fan-scene-v2.yml` - uses `ledIndicatorStatus` (4-option) per ZWA4013 spec (700S QFSW fans)
+  - `ge-plugin-scene.yml` - uses `ledIndicatorStatus` (4-option) per ZW4203 spec (outdoor plugins)
+
+### New Capability Files
+
+- `capabilities/forgeperfect33344/ledIndicatorBasic.json` - 3-option LED indicator capability for outlets/plugins
+- `capabilities/forgeperfect33344/ledIndicatorBasic-presentation.json` - 3-option LED indicator UI presentation
+
 ## [2026-01-12]
 
 ### Added
 
 - **Automatable LED Indicator Status Capability** (`forgeperfect33344.ledIndicatorStatus`)
+
   - Controls Z-Wave parameter 3
   - Values: whenOff (LED on when switch off), whenOn (LED on when switch on), alwaysOff, alwaysOn
-  - Available on all GE/Jasco/Honeywell/UltraPro devices
+  - Available on 5 GE/Jasco/Honeywell/UltraPro scene profiles (switches, dimmers, outlets, plugins)
+  - NOT available on fan profiles (fan controllers only support Parameter 4)
   - Can be used in SmartThings Routines and automations
 
 - **Automatable LED Color Capability** (`forgeperfect33344.ledLightColor`)
+
   - Controls Z-Wave parameter 34
   - Values: Red, Orange, Yellow, Green, Blue, Pink, Purple, White
   - Can be used in SmartThings Routines and automations
 
 - **Automatable LED Intensity Capability** (`forgeperfect33344.ledLightIntensity`)
+
   - Controls Z-Wave parameter 35
   - Values: 1 (lowest) through 7 (highest)
   - Can be used in SmartThings Routines and automations
 
 - **Automatable Guide Light Intensity Capability** (`forgeperfect33344.guideLightIntensity`)
+
   - Controls Z-Wave parameter 36
   - Values: 1 (lowest) through 7 (highest)
   - Can be used in SmartThings Routines and automations

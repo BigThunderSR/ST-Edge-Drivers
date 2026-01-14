@@ -100,6 +100,31 @@ test("1 maps to whenOn", LED_INDICATOR_REVERSE[1] == "whenOn")
 test("2 maps to alwaysOff", LED_INDICATOR_REVERSE[2] == "alwaysOff")
 test("3 maps to alwaysOn", LED_INDICATOR_REVERSE[3] == "alwaysOn")
 
+-- LED Indicator Basic mappings (Parameter 3 - 3-option version for outlets/plugins/fans)
+-- Only supports values 0, 1, 2 (no "alwaysOn")
+local LED_INDICATOR_BASIC_MAP = {
+    ["whenOff"] = 0,
+    ["whenOn"] = 1,
+    ["alwaysOff"] = 2
+}
+
+local LED_INDICATOR_BASIC_REVERSE = {}
+for k, v in pairs(LED_INDICATOR_BASIC_MAP) do
+    LED_INDICATOR_BASIC_REVERSE[v] = k
+end
+
+print("\n=== LED Indicator Basic Mapping Tests (3-option) ===")
+test("Basic whenOff maps to 0", LED_INDICATOR_BASIC_MAP["whenOff"] == 0)
+test("Basic whenOn maps to 1", LED_INDICATOR_BASIC_MAP["whenOn"] == 1)
+test("Basic alwaysOff maps to 2", LED_INDICATOR_BASIC_MAP["alwaysOff"] == 2)
+test("Basic does NOT have alwaysOn", LED_INDICATOR_BASIC_MAP["alwaysOn"] == nil)
+
+print("\n=== LED Indicator Basic Reverse Mapping Tests ===")
+test("Basic 0 maps to whenOff", LED_INDICATOR_BASIC_REVERSE[0] == "whenOff")
+test("Basic 1 maps to whenOn", LED_INDICATOR_BASIC_REVERSE[1] == "whenOn")
+test("Basic 2 maps to alwaysOff", LED_INDICATOR_BASIC_REVERSE[2] == "alwaysOff")
+test("Basic has no mapping for 3", LED_INDICATOR_BASIC_REVERSE[3] == nil)
+
 print("\n=== Summary ===")
 print(string.format("Passed: %d, Failed: %d", tests_passed, tests_failed))
 
