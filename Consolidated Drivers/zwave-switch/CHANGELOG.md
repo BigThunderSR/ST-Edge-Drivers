@@ -2,22 +2,22 @@
 
 All notable changes to this driver will be documented in this file.
 
+## [2026-01-14]
+
+- **Fixed:** GE Outlet 55256 (productId 0x3234) supports 4 LED options per Z-Wave JS spec - assigned to new `ge-outlet-scene-v2` profile with `ledIndicatorStatus` capability
+- **Added:** `ge-outlet-scene-v2.yml` profile - 4-option LED outlet profile for 55256 outlet
+
 ## [2026-01-13]
 
-### Fixed
-
-- Changed LED capability handlers to use Configuration:Get() instead of emitting events directly - UI now reflects actual device state from Configuration.REPORT
-- Created separate `ledIndicatorBasic` capability (3-option: whenOff, whenOn, alwaysOff) for devices that don't support "Always on"
-- Profile LED capabilities now match Z-Wave Alliance device specifications:
+- **Fixed:** Changed LED capability handlers to use Configuration:Get() instead of emitting events directly - UI now reflects actual device state from Configuration.REPORT
+- **Fixed:** Created separate `ledIndicatorBasic` capability (3-option: whenOff, whenOn, alwaysOff) for devices that don't support "Always on"
+- **Fixed:** Profile LED capabilities now match Z-Wave Alliance device specifications:
   - `ge-outlet-scene.yml` - uses `ledIndicatorBasic` (3-option) per ZW1002 spec
   - `ge-fan-scene.yml` - uses `ledIndicatorBasic` (3-option) per ZW4002 spec (500S fans)
   - `ge-fan-scene-v2.yml` - uses `ledIndicatorStatus` (4-option) per ZWA4013 spec (700S QFSW fans)
   - `ge-plugin-scene.yml` - uses `ledIndicatorStatus` (4-option) per ZW4203 spec (outdoor plugins)
-
-### New Capability Files
-
-- `capabilities/forgeperfect33344/ledIndicatorBasic.json` - 3-option LED indicator capability for outlets/plugins
-- `capabilities/forgeperfect33344/ledIndicatorBasic-presentation.json` - 3-option LED indicator UI presentation
+- **Added:** `capabilities/forgeperfect33344/ledIndicatorBasic.json` - 3-option LED indicator capability for outlets/plugins
+- **Added:** `capabilities/forgeperfect33344/ledIndicatorBasic-presentation.json` - 3-option LED indicator UI presentation
 
 ## [2026-01-12]
 

@@ -299,7 +299,7 @@ zwaveManufacturer:
     manufacturerId: 0x0063
     productType: 0x4952
     productId: 0x3234
-    deviceProfileName: ge-outlet-scene
+    deviceProfileName: ge-outlet-scene-v2
   - id: "0063/4952/3235"
     deviceLabel: GE Outlet 55257
     manufacturerId: 0x0063
