@@ -1,0 +1,16 @@
+{
+  "name": "ST-Edge-Drivers",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "postCreateCommand": "apt-get update && apt-get install -y lua5.3 luarocks",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "sumneko.lua"
+      ]
+    }
+  },
+  "mounts": []
+}
