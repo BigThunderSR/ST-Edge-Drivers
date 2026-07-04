@@ -72,6 +72,32 @@ local GE_SCENE = {
     values = {'up','down','pushed','up_hold','down_hold','held','up_2x','down_2x','pushed_2x','up_3x','down_3x','pushed_3x'},
   },
 }
+
+local GE_SCENE_800LR = {
+  PARAMETERS = {
+    powerReset      = {type = 'config', parameter_number = 1, size = 1},
+    energyMode      = {type = 'config', parameter_number = 2, size = 1},
+    energyFrequency = {type = 'config', parameter_number = 3, size = 1},
+    ledIndicator    = {type = 'config', parameter_number = 3, size = 1},
+    invertSwitch    = {type = 'config', parameter_number = 4, size = 1},
+    threeWayType    = {type = 'config', parameter_number = 5, size = 1},
+    dimRate         = {type = 'config', parameter_number = 6, size = 1},
+    switchMode      = {type = 'config', parameter_number = 16, size = 1},
+    excludeProtect  = {type = 'config', parameter_number = 19, size = 1},
+    minDim          = {type = 'config', parameter_number = 30, size = 1},
+    maxBright       = {type = 'config', parameter_number = 31, size = 1},
+    defaultBright   = {type = 'config', parameter_number = 32, size = 1},
+    ledLightColor   = {type = 'config', parameter_number = 34, size = 1},
+    ledLightInten   = {type = 'config', parameter_number = 36, size = 1},
+    relayControl    = {type = 'config', parameter_number = 39, size = 1},
+    assocGroup2     = {type = 'assoc', group = 2, maxnodes = 5, addhub = false},
+    assocGroup3     = {type = 'assoc', group = 3, maxnodes = 5, addhub = false},
+  },
+  BUTTONS = {
+    count = 1,
+    values = {'up','down','pushed','up_hold','down_hold','held','up_2x','down_2x','pushed_2x','up_3x','down_3x','pushed_3x'},
+  },
+}
 local GE_MOTION = {
   PARAMETERS = {
     timeoutDuration   = {type = 'config', parameter_number = 1, size = 1},
@@ -176,10 +202,19 @@ local devices = {
     MATCHING_MATRIX = {
       mfrs = {0x0039, 0x0063},
       product_types = {0x4952},
-      product_ids = {0x3135, 0x3136, 0x3137, 0x3138, 0x3139, 0x3231, 0x3237, 0x3238, 0x3239, 0x3330, 0x3331, 0x3333, 0x3334, 0x3436, 0x3438, 0x3439, 0x3534},
+      product_ids = {0x3135, 0x3136, 0x3137, 0x3138, 0x3139, 0x3231, 0x3237, 0x3238, 0x3239, 0x3330, 0x3331, 0x3333, 0x3334, 0x3436, 0x3439, 0x3534},
     },
     PARAMETERS = GE_SCENE.PARAMETERS,
     BUTTONS = GE_SCENE.BUTTONS,
+  },
+  GE_SWITCH_SCENE_800LR = {
+    MATCHING_MATRIX = {
+      mfrs = {0x0063},
+      product_types = {0x4952},
+      product_ids = {0x3438},
+    },
+    PARAMETERS = GE_SCENE_800LR.PARAMETERS,
+    BUTTONS = GE_SCENE_800LR.BUTTONS,
   },
   GE_DIMMER_SCENE = {
     MATCHING_MATRIX = {
