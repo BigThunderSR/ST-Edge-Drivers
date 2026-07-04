@@ -54,7 +54,7 @@ Available on **all GE/Jasco/Honeywell/UltraPro** switches, dimmers, fans, outlet
 
 Available only on newer Enbrighten/UltraPro models:
 
-- Enbrighten Switch 58433, 59337/ZWA4011DV
+- Enbrighten Switch 58433, 59337/ZWA4011DV, 76592/ZWN4016 (800LR)
 - GE Smart Toggle Switch 58436
 - UltraPro Switch 59347/ZWA4011, 59368/ZWA4012, 76601/ZWN4015, 76603/ZWN4016, 76605/ZWN4017
 
