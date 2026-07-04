@@ -58,6 +58,11 @@ Available only on newer Enbrighten/UltraPro models:
 - GE Smart Toggle Switch 58436
 - UltraPro Switch 59347/ZWA4011, 59368/ZWA4012, 76601/ZWN4015, 76603/ZWN4016, 76605/ZWN4017
 
+> **Note:** The Enbrighten 800LR (76592) does not support Parameter 35 (LED Light
+> Intensity). On this model, Parameter 36 serves as the sole LED intensity control.
+> The driver automatically remaps "LED Light Intensity" to Parameter 36 for this
+> device.
+
 ## Installation
 
 1. Subscribe to the driver channel
