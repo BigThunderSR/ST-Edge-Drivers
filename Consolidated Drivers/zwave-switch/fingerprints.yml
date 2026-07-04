@@ -359,7 +359,7 @@ zwaveManufacturer:
     manufacturerId: 0x0063
     productType: 0x4952
     productId: 0x3438
-    deviceProfileName: ge-switch-scene-led
+    deviceProfileName: ge-switch-scene-led-800lr
   - id: "0063/4952/3439"
     deviceLabel: UltraPro Switch 76603
     manufacturerId: 0x0063

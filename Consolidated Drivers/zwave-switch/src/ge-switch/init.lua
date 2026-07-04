@@ -458,10 +458,11 @@ end
 local function handle_set_led_intensity(driver, device, command)
   local value = command.args.ledLightIntensity
   local param_value = LED_INTENSITY_REVERSE[value]
+  local param_number = device:supports_capability_by_id("forgeperfect33344.guideLightIntensity") and 35 or 36
   if param_value then
-    device:send(Configuration:Set({parameter_number = 35, size = 1, configuration_value = param_value}))
+    device:send(Configuration:Set({parameter_number = param_number, size = 1, configuration_value = param_value}))
     -- Request current value - Configuration.REPORT handler will emit the event
-    device:send(Configuration:Get({parameter_number = 35}))
+    device:send(Configuration:Get({parameter_number = param_number}))
   end
 end
 
@@ -509,6 +510,8 @@ local function configuration_report_handler(driver, device, cmd)
     local mapped_value = LED_INTENSITY_MAP[value] or "7"
     if device:supports_capability_by_id("forgeperfect33344.guideLightIntensity") then
       device:emit_event(GuideLightIntensity.guideLightIntensity({ value = mapped_value }))
+    elseif device:supports_capability_by_id("forgeperfect33344.ledLightIntensity") then
+      device:emit_event(LedLightIntensity.ledLightIntensity({ value = mapped_value }))
     end
   end
 end
