@@ -37,10 +37,12 @@ This fork adds **automatable LED control capabilities** for compatible GE/Jasco 
 **LED Intensity (Parameter 35):**
 
 - 1 (lowest) through 7 (highest)
+- Applies when the LED Indicator is "on when switch is on"
 
 **Guide Light Intensity (Parameter 36):**
 
 - 1 (lowest) through 7 (highest)
+- Applies when the LED Indicator is "on when switch is off"
 
 ## Supported Models
 
@@ -58,7 +60,7 @@ Available only on newer Enbrighten/UltraPro models:
 - GE Smart Toggle Switch 58436
 - UltraPro Switch 59347/ZWA4011, 59368/ZWA4012, 76601/ZWN4015, 76603/ZWN4016, 76605/ZWN4017
 
-Which of the two intensity settings (Parameter 35 or 36) takes effect depends on the LED Indicator mode (Parameter 3).
+Which of the two intensity settings takes effect depends on the LED Indicator mode (Parameter 3): LED Intensity (35) for "on when switch is on", Guide Light Intensity (36) for "on when switch is off".
 
 ## Installation
 

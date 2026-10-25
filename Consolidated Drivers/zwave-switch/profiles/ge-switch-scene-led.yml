@@ -87,7 +87,7 @@ preferences:
       default: 5
   - title: "LED Light Intensity"
     name: ledLightIntens    # P35
-    description: "Set the LED light intensity"
+    description: "Set the LED light intensity (used when LED Indicator is on when switch is on)"
     required: true
     preferenceType: enumeration
     definition:
@@ -102,7 +102,7 @@ preferences:
       default: 4 
   - title: "Guidelight Mode Intensity"
     name: guideLightInten    # P36
-    description: "Set the guidelight mode intensity"
+    description: "Set the guidelight mode intensity (used when LED Indicator is on when switch is off)"
     required: true
     preferenceType: enumeration
     definition:
