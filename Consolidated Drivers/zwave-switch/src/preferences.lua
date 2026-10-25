@@ -62,6 +62,7 @@ local GE_SCENE = {
     defaultBright   = {type = 'config', parameter_number = 32, size = 1},
     ledLightColor   = {type = 'config', parameter_number = 34, size = 1},
     ledLightInten   = {type = 'config', parameter_number = 35, size = 1},
+    ledLightIntens  = {type = 'config', parameter_number = 35, size = 1},  -- name used by the ge-switch-scene-led profile
     guideLightInten = {type = 'config', parameter_number = 36, size = 1},
     relayControl    = {type = 'config', parameter_number = 39, size = 1},
     assocGroup2     = {type = 'assoc', group = 2, maxnodes = 5, addhub = false},
