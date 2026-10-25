@@ -10,7 +10,7 @@
   },
   "detailView": [
     {
-      "label": "LED Intensity",
+      "label": "LED Intensity (when LED is on with switch on)",
       "displayType": "list",
       "list": {
         "command": {
@@ -45,7 +45,7 @@
   "automation": {
     "conditions": [
       {
-        "label": "LED Intensity",
+        "label": "LED Intensity (when LED is on with switch on)",
         "displayType": "list",
         "list": {
           "alternatives": [
@@ -64,7 +64,7 @@
     ],
     "actions": [
       {
-        "label": "LED Intensity",
+        "label": "LED Intensity (when LED is on with switch on)",
         "displayType": "list",
         "list": {
           "alternatives": [
