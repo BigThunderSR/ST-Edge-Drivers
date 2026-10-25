@@ -147,8 +147,8 @@ Create a presentation file (`capabilityName-presentation.json`) for UI rendering
 # Create capability
 smartthings capabilities:create -i capabilities/capabilityName.json
 
-# Create presentation
-smartthings capabilities:presentation:create yournamespace.capabilityName 1 -i capabilities/capabilityName-presentation.json
+# Create presentation (CLI 2.x takes the version as a flag)
+smartthings capabilities:presentation:create yournamespace.capabilityName --capability-version 1 -i capabilities/capabilityName-presentation.json
 ```
 
 ## Step 2: Create Lua Capability Definitions
@@ -320,6 +320,19 @@ smartthings edge:drivers:switch DEVICE_ID --hub HUB_ID --driver DRIVER_ID
 
 - Use uninstall/reinstall method
 - Check `smartthings edge:drivers:installed --hub HUB_ID` for version
+- A hub is limited to 80 installed drivers; `edge:drivers:install` fails with a 400 error until one is removed
+
+### Label Change Not Showing on the Device Page
+
+- The title of a control on the main device page comes from the capability's English translation `label`, not the presentation `label`; Routines use the presentation label
+- Update both: `capabilities:presentation:update` and `capabilities:translations:upsert`
+- Profile preference descriptions only change for devices on the new profile version
+
+### Settings-Page Control Does Nothing
+
+- A profile preference `name` must match a key in `src/preferences.lua` for the device's model
+- Names that are not in the map are skipped silently when a setting changes
+- Confirm with live logging (see `LIVELOGGING.md` in the repo root): changing the setting should log a `Configuration Set`
 
 ## Useful Commands
 
@@ -340,7 +353,11 @@ smartthings devices DEVICE_ID
 smartthings capabilities yournamespace.capabilityName
 
 # Get capability presentation
-smartthings capabilities:presentation yournamespace.capabilityName 1
+smartthings capabilities:presentation yournamespace.capabilityName --capability-version 1
+
+# Get or update a capability's English translation
+smartthings capabilities:translations yournamespace.capabilityName en --capability-version 1
+smartthings capabilities:translations:upsert yournamespace.capabilityName --capability-version 1 -i translation.json
 ```
 
 ## File Structure

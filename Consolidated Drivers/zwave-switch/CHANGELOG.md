@@ -2,6 +2,13 @@
 
 All notable changes to this driver will be documented in this file.
 
+## [2026-10-25]
+
+- **Added:** Enbrighten Switch 76592/ZWN4016 (800LR), fingerprint `0063/4952/3438`, on the shared `ge-switch-scene-led` profile
+- **Fixed:** The Settings-page "LED Light Intensity" control did not write to the switch; the profile name `ledLightIntens` is now mapped to parameter 35
+- **Changed:** LED Intensity and Guide Light Intensity labels now say which LED Indicator mode they apply to (LED Intensity for "on when switch is on", Guide Light Intensity for "on when switch is off")
+- **Note:** Which of parameters 35 and 36 controls the LED brightness depends on the LED Indicator mode (parameter 3), not on the model
+
 ## [2026-01-14]
 
 - **Fixed:** GE Outlet 55256 (productId 0x3234) supports 4 LED options per Z-Wave JS spec - assigned to new `ge-outlet-scene-v2` profile with `ledIndicatorStatus` capability
